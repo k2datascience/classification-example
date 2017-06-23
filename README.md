@@ -21,68 +21,70 @@ Standard assumptions are that older, educated and individuals with families are 
 
 ## Exploratory Data Analysis
 
-I explored various quantitative features against the Ebert Stars to see if there was a high pearson correlation coefficient.
+I explored various feaures.
+
+**Histogram of age**
+
+![histogram](images/age.png)
 
 **Pair plot of quantitative variables (colored by class)**
 
 ![pairplot](images/pair_plot.png)
 
-**Day of the week vs. Age (colored by class)**
-
-![day_of_week](images/day_of_week.png)
-
 **Box plot of Marital Status and Age (colored by class)**
 
 ![age_marital](images/age_marital.png)
 
-**Home Ownership vs. Duration of Call (colored by previous outcome)**
 
-![duration](images/duration.png)
-
-## Feature Engineering
+## Data Preprocessing
 
 After an inital round of EDA, I went on to engineer novel features from the data set. I thought the following may have some influence on signing up for a term deposit:
 
 - Drop any NaNs
+- Convert yes/no to 1/0
 - Get dummy variables for month, day of week, job, marital status, education, type of contact
 - Remove any features that have look-forward bias
+- Brought features on the same scale
 
-## Tree-based Methods
+**Relative feature importance via Random Forest**
 
-Decision tree classifiers are incredibly simple in theory. In their simplest form, decision tree classifiers ask a series of Yes/No questions about the data — each time getting closer to finding out the class of each entry — until they either classify the data set perfectly or simply can't differentiate a set of entries. Think of it like a game of Twenty Questions, except the computer is much, much better at it.
+![random_forest](images/random_forest.png)
 
-The nice part about decision tree classifiers is that they are scale-invariant, i.e., the scale of the features does not affect their performance, unlike many Machine Learning models. In other words, it doesn't matter if our features range from 0 to 1 or 0 to 1,000; decision tree classifiers will work with them just the same.
+**Dimensionality reduction via PCA**
 
-It's obviously a problem that our model performs quite differently depending on the subset of the data it's trained on. This phenomenon is known as overfitting: The model is learning to classify the training set so well that it doesn't generalize and perform well on data it hasn't seen before.
+![pca](images/pca.png)
 
-This problem is the main reason that most data scientists perform **k-fold cross-validation** on their models: Split the original data set into k subsets, use one of the subsets as the testing set, and the rest of the subsets are used as the training set. This process is then repeated k times such that each subset is used as the testing set exactly once.
+## Modeling
 
-![k-fold scores](images/kfold.png)
+Started off with a baseline model, which had a fairly high accuracy of **87.6%**. Due to the class imbalance of a lot of No's, this makes sense. Let's see how a range of classification algorithsm compared.
 
-The most common method for model parameter tuning is **Grid Search**. The idea behind Grid Search is simple: explore a range of parameters and find the best-performing parameter combination. Focus your search on the best range of parameters, then repeat this process several times until the best parameters are discovered.
+**Comparing cross-validated performance**
 
-![grid search](images/grid_search.png)
+![cv](images/cv.png)
 
-**Random Forest classifiers** usually work better than individual decision trees. A common problem that decision trees face is that they're prone to overfitting: They complexify to the point that they classify the training set near-perfectly, but fail to generalize to data they have not seen before.
+I decided to focus on the Logistic Regression classifier and further tune it as well as examine it for over- and under-fitting.
 
-Random Forest classifiers work around that limitation by creating a whole bunch of decision trees (hence "forest") — each trained on random subsets of training samples (drawn with replacement) and features (drawn without replacement) — and have the decision trees work together to make a more accurate classification.
+**Learning curve**
 
-In our case, the decision tree worked better.
+![learning](images/learning.png)
 
-![random forest](images/random_forest.png)
+**Confusion matrix**
+
+![confusion](images/confusion.png)
+
+It turns out my model had an incredibly low Recall at **20.5%**. In this situation, correctly identifying the "Yes" for term deposits is the most important goal of the project. If I am unable to bring Recall up to an acceptable threshold, a "highly accurate" model is pointless
 
 ## Lessons Learned
 
-I learned several concepts during this project. I had not explored tree-based methods before in-depth. I learned that although Random Forests are superior in most ways to plain Decision Trees, in this case, Decision Trees won. This was the first time I used grid search to tune hyperparameters. It was a greedy, yet effective method for finding the optimal values.
+I learned several concepts during this project. I started to examine the nuances of linear and non-linear based algorithms. I tackled the bias-variance trade-off, but will still need to further examine how to take on the precision-recall trade-off. Even though I made solid progress on the pipeline, it opened up the door for many more questions than I originally wanted to answer.
 
 ## Further Analysis
 
 If I had more time with the project, I would complete the following tasks:
 
 - Construct many more features dealing with interactions between 2 variables
-- Reduce the dimensionality of the feature space
 - Explore gradient boosting
-- Compare to performance of other classification models
+- Play with precision-recall curve
 
 ## Code Information
 
