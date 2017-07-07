@@ -21,7 +21,7 @@ Standard assumptions are that older, educated and individuals with families are 
 
 ## Exploratory Data Analysis
 
-I explored various feaures.
+I explored various feaures. Below are a preview of the univariate and bivariate visualizations. Please check the accompany Jupyter notebooks for more detailed EDA.
 
 **Histogram of age**
 
@@ -64,15 +64,15 @@ Started off with a baseline model, which had a fairly high accuracy of **87.6%**
 
 I decided to focus on the Logistic Regression classifier and further tune it as well as examine it for over- and under-fitting.
 
-**Learning curve**
+**Validation curve**
 
-![learning](images/learning.png)
+![validation](images/validation_curve.png)
 
 **Confusion matrix**
 
 ![confusion](images/confusion.png)
 
-It turns out my model had an incredibly low Recall at **20.5%**. In this situation, correctly identifying the "Yes" for term deposits is the most important goal of the project. If I am unable to bring Recall up to an acceptable threshold, a "highly accurate" model is pointless
+It turns out my model had an incredibly low Recall at **20.5%**. In this situation, correctly identifying the "Yes" for term deposits is the most important goal of the project. If I am unable to bring Recall up to an acceptable threshold, a "highly accurate" model is pointless.
 
 ## Lessons Learned
 
