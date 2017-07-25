@@ -65,7 +65,7 @@ The class highlighting on the first two principal components shows no discernabl
 
 The cumulative explained variance does provide useful insight. If this was a heavy big data problem, we would be able to remove the last 4 components and still retain 95% of the variance. We are not memory or time constrained in this project, so we will keep the variables the way they are for now.
 
-## Modeling Round 1
+## First Stab at Modeling
 
 Started off with a baseline model, which had a fairly high accuracy of **88.7%**. Due to the class imbalance of a lot of No's, this makes sense. I decided to loop through a variety of classification algorithms and see which one fared best.
 
@@ -79,9 +79,11 @@ Logistic Regression and SVM seemed to fare the best, but neither vanilla implmen
 
 I decided to focus on the Logistic Regression classifier and further tune it as well as examine it for over- and under-fitting.
 
-**Validation Curve**
+**Validation Curve for Regularization Parameter**
 
 ![validation](images/validation_curve.png)
+
+Now, let's take a look and see how the predictions fare.
 
 **Confusion Matrix**
 
@@ -89,13 +91,31 @@ I decided to focus on the Logistic Regression classifier and further tune it as 
 
 It turns out my model had an incredibly low Recall at **20.5%**. In this situation, correctly identifying the "Yes" for term deposits is the most important goal of the project. If I am unable to bring Recall up to an acceptable threshold, a "highly accurate" model is pointless.
 
-## Modeling Round 2
+**Precision-Recall Curve**
 
+![confusion](images/confusion_matrix.png)
 
+Any changes to the decision threshold will crush my precision. I'll have to find an acceptable balance that makes sense for the client.
+
+## Finalized Bernoulli Model
+
+While reviewing the data and thinking of any additional transformations I could do, I realized the majority of my variables were binary. My linear classifiers were probably getting destroyed by the sparse high dimensional feature space. I remembered that there is a Naive Bayes classification algorithm that is meant for data distributed according to multivariate Bernoulli distributions. In essence, mulitple features but each one is assumed to be a binary-valued (Bernoulli, boolean) variable.
+
+The decision rule for Bernoulli Naive Bayes is based on:
+
+![bernoulli decision](images/bernoulli_decision.png)
+
+It explicity penalizes the non-occurence of a feature *i* that is an indicator for class *y*.
+
+After running the default model, I had the highest starting recall of any of the models by a large margin. I decided to implement a custom threshold and here are my final results on the testing set.
+
+![bernoulli confusion](images/bernoulli_confusion.png)
+
+Instead of flat-out calling 8,238 individuals, I decided that the client should call 4,589 individuals. Of this subset, we will be getting 80.4% of the individuals that would have signed up for a term deposit in the original grouping. Although the bank is missing out on 20%, the time required to get the term deposits is cut in half. If you scale this problem up to 100,000 individuals or 1,000,000 individuals. The cost savings in man hours would definitely allow for additional value-add in other divisions of the bank.
 
 ## Lessons Learned
 
-I learned several concepts during this project. I started to examine the nuances of linear and non-linear based algorithms. I tackled the bias-variance trade-off, but will still need to further examine how to take on the precision-recall trade-off. Even though I made solid progress on the pipeline, it opened up the door for many more questions than I originally wanted to answer.
+I learned several concepts during this project. I started to examine the nuances of linear and non-linear based algorithms. I tackled the bias-variance trade-off as well as the precision-recall trade-off for the first time. Even though I made solid progress on the pipeline, I now have several more questions I do not know the answer to.
 
 ## Further Analysis
 
@@ -103,7 +123,6 @@ If I had more time with the project, I would complete the following tasks:
 
 - Construct many more features dealing with interactions between 2 variables
 - Explore gradient boosting
-- Play with precision-recall curve
 
 ## Code Information
 
