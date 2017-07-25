@@ -61,30 +61,37 @@ I extracted out the continuous numerical variables and decided to run PCA for tw
 
 The class highlighting on the first two principal components shows no discernable difference between individuals that signed up for term deposits and those that did not.
 
-![pca_variance](images/pca_.png)
+![pca_variance](images/pca_variance.png)
 
 The cumulative explained variance does provide useful insight. If this was a heavy big data problem, we would be able to remove the last 4 components and still retain 95% of the variance. We are not memory or time constrained in this project, so we will keep the variables the way they are for now.
 
-## Modeling
+## Modeling Round 1
 
-Started off with a baseline model, which had a fairly high accuracy of **87.6%**. Due to the class imbalance of a lot of No's, this makes sense. Let's see how a range of classification algorithsm compared.
+Started off with a baseline model, which had a fairly high accuracy of **88.7%**. Due to the class imbalance of a lot of No's, this makes sense. I decided to loop through a variety of classification algorithms and see which one fared best.
 
-**Comparing cross-validated performance**
+**Comparing Cross-Validated Performance**
 
-![cv](images/cv.png)
+![cv](images/accuracy_comparison.png)
+
+Logistic Regression and SVM seemed to fare the best, but neither vanilla implmentations are leaps and bounds beyond the baseline model.
+
+![roc auc](images/roc_auc.png)
 
 I decided to focus on the Logistic Regression classifier and further tune it as well as examine it for over- and under-fitting.
 
-**Validation curve**
+**Validation Curve**
 
-![validation](images/validation_curve
-.png)
+![validation](images/validation_curve.png)
 
-**Confusion matrix**
+**Confusion Matrix**
 
-![confusion](images/confusion.png)
+![confusion](images/confusion_matrix.png)
 
 It turns out my model had an incredibly low Recall at **20.5%**. In this situation, correctly identifying the "Yes" for term deposits is the most important goal of the project. If I am unable to bring Recall up to an acceptable threshold, a "highly accurate" model is pointless.
+
+## Modeling Round 2
+
+
 
 ## Lessons Learned
 
