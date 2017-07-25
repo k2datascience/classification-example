@@ -93,7 +93,7 @@ It turns out my model had an incredibly low Recall at **20.5%**. In this situati
 
 **Precision-Recall Curve**
 
-![confusion](images/confusion_matrix.png)
+![precision recall](images/precision-recall.png)
 
 Any changes to the decision threshold will crush my precision. I'll have to find an acceptable balance that makes sense for the client.
 
