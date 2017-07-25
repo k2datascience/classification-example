@@ -21,38 +21,49 @@ Standard assumptions are that older, educated and individuals with families are 
 
 ## Exploratory Data Analysis
 
-I explored various feaures. Below are a preview of the univariate and bivariate visualizations. Please check the accompany Jupyter notebooks for more detailed EDA.
+I explored various feaures. Below are a preview of the univariate and bivariate visualizations. Please check the accompanying Jupyter notebooks for more detailed EDA.
 
-**Histogram of age**
+**Missing Data**
 
-![histogram](images/age.png)
+One of the first things you have to do with any dataset is examine missing data and decide on a removal or imputation strategy. At first glance, there were no NaN values when importing the CSV into pandas. However, on closer inspection, several columns had a large number of string values of "unknown". According to the data descriptions, another column had the value "999" when there was no previous call. These two columns were surely going to wreak havoc on any modeling. I decided to impute all these based on the median column values.
 
-**Pair plot of quantitative variables (colored by class)**
+![missing data](images/missing_data.png)
 
-![pairplot](images/pair_plot.png)
+There seemed to be a large number of unknowns in the column designating whether the individual had credit in default. It seemed odd that the bank would not have this information on file. Maybe they did not have permission to do a credit look-up. Another possibility for so many unknowns is that this is a sensitive financial matter. People are more likely to hide the fact that they are in financial trouble vs. reporting their marital status.
 
-**Box plot of Marital Status and Age (colored by class)**
+**Univariate Analysis**
 
-![age_marital](images/age_marital.png)
+There were only a select few of numerical variables, while binary yes/no or multi-category. Ages in particular had a fairly normal distribution, but has a heavy right skew. There is a large drop-off at 60, almost an inverse replica to the step up from 20 to 25 on the other-end of the age spectrum.
 
+![histogram](images/ages.png)
+
+**Multivariate Analysis**
+
+There did not seem to be any significant relationships between the bank data. In the following correlation matrix, the warmer cells are mostly social and economic indicators released by the government. It would make sense that these numbers are highly correlated.
+
+![pairplot](images/matrix.png)
 
 ## Data Preprocessing
 
-After an inital round of EDA, I went on to engineer novel features from the data set. I thought the following may have some influence on signing up for a term deposit:
+After an inital round of EDA, I went on to make sure the data was ready to be fed into any learning algorithm. These were the steps I took:
 
-- Drop any NaNs
+- Median imputation for 'unknown' values
 - Convert yes/no to 1/0
 - Get dummy variables for month, day of week, job, marital status, education, type of contact
 - Remove any features that have look-forward bias
 - Brought features on the same scale
 
-**Relative feature importance via Random Forest**
+**Principal Component Analysis**
 
-![random_forest](images/random_forest.png)
+I extracted out the continuous numerical variables and decided to run PCA for two reasons. I wanted to visualize the first two components as well as the first three. Also, I wanted to see if the first few components would be able to retain most of the variance.
 
-**Dimensionality reduction via PCA**
+![pca visualization](images/pca_visual.png)
 
-![pca](images/pca.png)
+The class highlighting on the first two principal components shows no discernable difference between individuals that signed up for term deposits and those that did not.
+
+![pca_variance](images/pca_.png)
+
+The cumulative explained variance does provide useful insight. If this was a heavy big data problem, we would be able to remove the last 4 components and still retain 95% of the variance. We are not memory or time constrained in this project, so we will keep the variables the way they are for now.
 
 ## Modeling
 
@@ -66,7 +77,8 @@ I decided to focus on the Logistic Regression classifier and further tune it as 
 
 **Validation curve**
 
-![validation](images/validation_curve.png)
+![validation](images/validation_curve
+.png)
 
 **Confusion matrix**
 
