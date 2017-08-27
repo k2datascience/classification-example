@@ -27,7 +27,7 @@ I explored various feaures. Below are a preview of the univariate and bivariate 
 
 One of the first things you have to do with any dataset is examine missing data and decide on a removal or imputation strategy. At first glance, there were no NaN values when importing the CSV into pandas. However, on closer inspection, several columns had a large number of string values of "unknown". According to the data descriptions, another column had the value "999" when there was no previous call. These two columns were surely going to wreak havoc on any modeling. I decided to impute all these based on the median column values.
 
-![missing data](images/missing_data.png)
+![missing data](reports/figures/missing_data.png)
 
 There seemed to be a large number of unknowns in the column designating whether the individual had credit in default. It seemed odd that the bank would not have this information on file. Maybe they did not have permission to do a credit look-up. Another possibility for so many unknowns is that this is a sensitive financial matter. People are more likely to hide the fact that they are in financial trouble vs. reporting their marital status.
 
@@ -35,13 +35,13 @@ There seemed to be a large number of unknowns in the column designating whether 
 
 There were only a select few of numerical variables, while binary yes/no or multi-category. Ages in particular had a fairly normal distribution, but has a heavy right skew. There is a large drop-off at 60, almost an inverse replica to the step up from 20 to 25 on the other-end of the age spectrum.
 
-![histogram](images/ages.png)
+![histogram](reports/figures/ages.png)
 
 **Multivariate Analysis**
 
 There did not seem to be any significant relationships between the bank data. In the following correlation matrix, the warmer cells are mostly social and economic indicators released by the government. It would make sense that these numbers are highly correlated.
 
-![pairplot](images/matrix.png)
+![pairplot](reports/figures/matrix.png)
 
 ## Data Preprocessing
 
@@ -57,11 +57,11 @@ After an inital round of EDA, I went on to make sure the data was ready to be fe
 
 I extracted out the continuous numerical variables and decided to run PCA for two reasons. I wanted to visualize the first two components as well as the first three. Also, I wanted to see if the first few components would be able to retain most of the variance.
 
-![pca visualization](images/pca_visual.png)
+![pca visualization](reports/figures/pca_visual.png)
 
 The class highlighting on the first two principal components shows no discernable difference between individuals that signed up for term deposits and those that did not.
 
-![pca_variance](images/pca_variance.png)
+![pca_variance](reports/figures/pca_variance.png)
 
 The cumulative explained variance does provide useful insight. If this was a heavy big data problem, we would be able to remove the last 4 components and still retain 95% of the variance. We are not memory or time constrained in this project, so we will keep the variables the way they are for now.
 
@@ -71,29 +71,29 @@ Started off with a baseline model, which had a fairly high accuracy of **88.7%**
 
 **Comparing Cross-Validated Performance**
 
-![cv](images/accuracy_comparison.png)
+![cv](reports/figures/accuracy_comparison.png)
 
 Logistic Regression and SVM seemed to fare the best, but neither vanilla implmentations are leaps and bounds beyond the baseline model.
 
-![roc auc](images/roc_auc.png)
+![roc auc](reports/figures/roc_auc.png)
 
 I decided to focus on the Logistic Regression classifier and further tune it as well as examine it for over- and under-fitting.
 
 **Validation Curve for Regularization Parameter**
 
-![validation](images/validation_curve.png)
+![validation](reports/figures/validation_curve.png)
 
 Now, let's take a look and see how the predictions fare.
 
 **Confusion Matrix**
 
-![confusion](images/confusion_matrix.png)
+![confusion](reports/figures/confusion_matrix.png)
 
 It turns out my model had an incredibly low Recall at **20.5%**. In this situation, correctly identifying the "Yes" for term deposits is the most important goal of the project. If I am unable to bring Recall up to an acceptable threshold, a "highly accurate" model is pointless.
 
 **Precision-Recall Curve**
 
-![precision recall](images/precision-recall.png)
+![precision recall](reports/figures/precision-recall.png)
 
 Any changes to the decision threshold will crush my precision. I'll have to find an acceptable balance that makes sense for the client.
 
@@ -103,13 +103,13 @@ While reviewing the data and thinking of any additional transformations I could 
 
 The decision rule for Bernoulli Naive Bayes is based on:
 
-![bernoulli decision](images/bernoulli_decision.png)
+![bernoulli decision](reports/figures/bernoulli_decision.png)
 
 It explicity penalizes the non-occurence of a feature *i* that is an indicator for class *y*.
 
 After running the default model, I had the highest starting recall of any of the models by a large margin. I decided to implement a custom threshold and here are my final results on the testing set.
 
-![bernoulli confusion](images/bernoulli_confusion.png)
+![bernoulli confusion](reports/figures/bernoulli_confusion.png)
 
 Instead of flat-out calling 8,238 individuals, I decided that the client should call 4,589 individuals. Of this subset, we will be getting 80.4% of the individuals that would have signed up for a term deposit in the original grouping. Although the bank is missing out on 20%, the time required to get the term deposits is cut in half. If you scale this problem up to 100,000 individuals or 1,000,000 individuals, the cost savings in man hours would definitely allow for additional value-add in other divisions of the bank.
 
