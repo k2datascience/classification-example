@@ -111,7 +111,11 @@ After running the default model, I had the highest starting recall of any of the
 
 ![bernoulli confusion](reports/figures/bernoulli_confusion.png)
 
-Instead of flat-out calling 8,238 individuals, I decided that the client should call 4,589 individuals. Of this subset, we will be getting 80.4% of the individuals that would have signed up for a term deposit in the original grouping. Although the bank is missing out on 20%, the time required to get the term deposits is cut in half. If you scale this problem up to 100,000 individuals or 1,000,000 individuals, the cost savings in man hours would definitely allow for additional value-add in other divisions of the bank.
+## Business Value
+
+Instead of flat-out calling 8,238 individuals, I decided that the client should call 4,589 individuals. Of this subset, we will be getting 80.4% of the individuals that would have signed up for a term deposit in the original grouping. Although the bank is missing out on 20%, the time required to get the term deposits is cut in half.
+
+[insert data story]
 
 ## Lessons Learned
 
