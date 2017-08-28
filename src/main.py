@@ -111,7 +111,7 @@ def bernoulli_model(pickle_file):
     plt.xlabel('Predicted Label')
     plt.ylabel('True Label')
 
-    plt.savefig('./reports/figures/confusion_matrix.png', dpi=300)
+    plt.savefig('./reports/figures/confusion.png', dpi=300)
     print("Saved confusion matrix")
     print("---------------------------")
 

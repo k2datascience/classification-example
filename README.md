@@ -115,7 +115,7 @@ After running the default model, I had the highest starting recall of any of the
 
 Instead of flat-out calling 8,238 individuals, I decided that the client should call 4,589 individuals. Of this subset, we will be getting 80.4% of the individuals that would have signed up for a term deposit in the original grouping. Although the bank is missing out on 20%, the time required to get the term deposits is cut in half.
 
-[insert data story]
+![cost-benefit](reports/figures/cost-benefit.png)
 
 ## Lessons Learned
 
