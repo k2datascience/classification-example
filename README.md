@@ -87,7 +87,7 @@ Now, let's take a look and see how the predictions fare.
 
 **Confusion Matrix**
 
-![confusion](reports/figures/confusion_matrix.png)
+![confusion](reports/figures/confusion.png)
 
 It turns out my model had an incredibly low Recall at **20.5%**. In this situation, correctly identifying the "Yes" for term deposits is the most important goal of the project. If I am unable to bring Recall up to an acceptable threshold, a "highly accurate" model is pointless.
 
